@@ -1,6 +1,6 @@
 spring:
   application:
-    name: client-server
+    name: client-service
 
 
 server:

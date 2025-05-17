@@ -16,7 +16,8 @@ public class ClientService {
 
     @Transactional
     public Client save(Client client) {
-        return repository.save(client);
+        var clientOp = getByCPF(client.getCpf());
+        return clientOp.orElseGet(() -> repository.save(client));
     }
 
     public Optional<Client> getByCPF(String cpf) {

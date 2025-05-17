@@ -11,13 +11,13 @@ import java.math.BigDecimal;
 public class CardByClientResponse {
     private String name;
     private String brand;
-    private BigDecimal limit;
+    private BigDecimal limitReleased;
 
     public static CardByClientResponse fromModel(CardClient card) {
         CardByClientResponse response = new CardByClientResponse();
         response.setName(card.getCard().getName());
         response.setBrand(card.getCard().getBrand().toString());
-        response.setLimit(card.getLimitReleased());
+        response.setLimitReleased(card.getLimitReleased());
         return response;
     }
 }

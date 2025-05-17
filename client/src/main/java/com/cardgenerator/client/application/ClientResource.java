@@ -25,7 +25,7 @@ public class ClientResource {
 
     @GetMapping
     public String healthCheck() {
-        log.info("Health check");
+        log.info("Health check client");
         return "ok";
     }
 

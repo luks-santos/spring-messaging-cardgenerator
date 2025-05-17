@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: credit-evaluator-service
+
+server:
+  port: 0
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    service-url:
+        defaultZone: http://localhost:8761/eureka/

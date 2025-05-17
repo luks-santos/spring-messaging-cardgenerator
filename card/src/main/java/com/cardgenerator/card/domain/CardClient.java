@@ -26,4 +26,11 @@ public class CardClient {
     @JoinColumn(name = "card_id")
     private Card card;
     private BigDecimal limitReleased;
+
+
+    public CardClient(String cpf, Card card, BigDecimal limitReleased) {
+        this.cpf = cpf;
+        this.card = card;
+        this.limitReleased = limitReleased;
+    }
 }

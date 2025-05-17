@@ -1,7 +1,9 @@
 package com.cardgenerator.CreditEvaluator.application;
 
+import com.cardgenerator.CreditEvaluator.application.ex.CardRequestException;
 import com.cardgenerator.CreditEvaluator.application.ex.ClientNotFoundException;
 import com.cardgenerator.CreditEvaluator.application.ex.MicroserviceCommunicationException;
+import com.cardgenerator.CreditEvaluator.domain.model.CardRequest;
 import com.cardgenerator.CreditEvaluator.domain.model.CreditEvaluator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -44,6 +46,15 @@ public class CreditEvaluatorController {
             return ResponseEntity.notFound().build();
         } catch (MicroserviceCommunicationException e) {
             return ResponseEntity.status(HttpStatus.resolve(e.getStatus())).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/card-request")
+    public ResponseEntity<?> requestCard(@RequestBody CardRequest data) {
+        try {
+            return ResponseEntity.ok(service.cardEmitRequest(data));
+        } catch (CardRequestException e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 }

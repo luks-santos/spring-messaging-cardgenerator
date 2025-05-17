@@ -2,6 +2,12 @@ spring:
   application:
     name: card-service
 
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
 server:
   port: 0
 
@@ -12,3 +18,8 @@ eureka:
     register-with-eureka: true
     service-url:
         defaultZone: http://localhost:8761/eureka/
+
+
+mq:
+  queues:
+    card-emit: card-emit

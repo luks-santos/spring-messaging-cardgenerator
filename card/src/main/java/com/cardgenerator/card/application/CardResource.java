@@ -1,5 +1,6 @@
 package com.cardgenerator.card.application;
 
+import com.cardgenerator.card.application.representation.CardByClientResponse;
 import com.cardgenerator.card.application.representation.CardSaveRequest;
 import com.cardgenerator.card.domain.Card;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,8 @@ import java.util.List;
 @Slf4j
 public class CardResource {
 
-    private final CardService service;
+    private final CardService cardService;
+    private final CardClientService cardClientService;
 
     @GetMapping
     public String healthCheck() {
@@ -30,15 +32,24 @@ public class CardResource {
     }
 
     @PostMapping
-    public ResponseEntity save(@RequestBody CardSaveRequest request) {
+    public ResponseEntity<?> save(@RequestBody CardSaveRequest request) {
         Card card = request.toCard();
-        service.save(card);
+        cardService.save(card);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping(params = "income")
     public ResponseEntity<List<Card>> getCardsHasIncomeLessThanEqualTo(@RequestParam Long income) {
-        List<Card> cards = service.getCardsHasIncomeLessThanEqualTo(income);
+        List<Card> cards = cardService.getCardsHasIncomeLessThanEqualTo(income);
+        return ResponseEntity.ok(cards);
+    }
+
+    @GetMapping(params = "cpf")
+    public ResponseEntity<List<CardByClientResponse>> getCardsByClient(@RequestParam String cpf) {
+        List<CardByClientResponse> cards = cardClientService.getCardsByCpf(cpf)
+                .stream()
+                .map(CardByClientResponse::fromModel)
+                .toList();
         return ResponseEntity.ok(cards);
     }
 }

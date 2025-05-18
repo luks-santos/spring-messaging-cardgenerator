@@ -32,7 +32,7 @@ public class CardEmitSubscriber {
 
             cardClientRepository.save(cardClient);
         } catch (JsonProcessingException e) {
-            log.error("CardEmitSubscriber::receiveRequest", e);
+            log.error("Error::receiveRequest: {}", e.getMessage());
         }
     }
 }

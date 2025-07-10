@@ -16,9 +16,9 @@ Microservices system for credit card generation.
 ## How to Run
 
 ### Prerequisites
-- Java 17+
+- Java 24+
 - Maven 3.6+
-- Docker (optional, for production)
+- Docker (optional)
 
 ### Local Development
 
@@ -58,22 +58,6 @@ docker-compose up -d
 # Stop services
 docker-compose down
 ```
-
-## Service Ports
-
-- **Eureka Server**: 8761
-- **Gateway**: 8080
-- **Client Service**: 8082
-- **Card Service**: 8081
-- **Credit Evaluator**: 8083
-
-## Access URLs
-
-- **Eureka Dashboard**: http://localhost:8761
-- **Gateway**: http://localhost:8080
-- **H2 Console (Client)**: http://localhost:8082/h2-console
-- **H2 Console (Card)**: http://localhost:8081/h2-console
-- **Swagger UI**: http://localhost:[port]/swagger-ui.html
 
 ## Configurations
 

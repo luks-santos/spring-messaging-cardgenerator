@@ -1,0 +1,96 @@
+version: '3.8'
+
+networks:
+  credit-network:
+    driver: bridge
+
+services:
+  credit-eureka:
+    build: ./eureka
+    container_name: credit-eureka
+    ports:
+      - "8761:8761"
+    networks:
+      - credit-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=production
+
+  credit-card:
+    build: ./card
+    container_name: credit-card
+    depends_on:
+      - credit-eureka
+      - credit-rabbitmq
+    ports:
+      - "8082:8082"
+    networks:
+      - credit-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=production
+
+  credit-client:
+    build: ./client
+    container_name: credit-client
+    depends_on:
+      - credit-eureka
+    ports:
+      - "8083:8083"
+    networks:
+      - credit-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=production
+
+  credit-evaluator:
+    build: ./CreditEvaluator
+    container_name: credit-evaluator
+    depends_on:
+      - credit-eureka
+      - credit-card
+      - credit-client
+      - credit-rabbitmq
+    ports:
+      - "8084:8084"
+    networks:
+      - credit-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=production
+
+  credit-gateway:
+    build: ./gateway
+    container_name: credit-gateway
+    depends_on:
+      - credit-eureka
+    ports:
+      - "8080:8080"
+    networks:
+      - credit-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=production
+
+  credit-rabbitmq:
+    image: rabbitmq:4-management
+    container_name: credit-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - credit-network
+
+  credit-keycloak:
+    image: quay.io/keycloak/keycloak:26.2.5
+    container_name: credit-keycloak
+    ports:
+      - "8081:8080"
+    networks:
+      - credit-network
+    environment:
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+      - KC_IMPORT_REALM_LAZY=true
+      - KC_HTTP_ENABLED=true
+      - KC_HOSTNAME_STRICT=false
+      - KC_HOSTNAME_STRICT_HTTPS=false
+      - KC_FEATURES=scripts
+    volumes:
+      - ./keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
+    command: start-dev --import-realm

@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: eureka-service
+  security:
+    user:
+      name: admin-eureka
+      password: admin
+
+server:
+  port: 8761
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  instance:
+    prefer-ip-address: true
+
+logging:
+  level:
+    com.netflix.eureka: DEBUG
+    com.cardgenerator: DEBUG 

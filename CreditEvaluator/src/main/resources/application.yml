@@ -1,35 +1,3 @@
 spring:
-  application:
-    name: credit-evaluator-service
-
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
-
-server:
-  port: 0
-
-eureka:
-  instance:
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-  client:
-    register-with-eureka: true
-    service-url:
-      defaultZone: http://admin-eureka:admin@localhost:8761/eureka/
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include:
-          - '*'
-
-logging:
-  file:
-    name: ./logs/log-file.log
-
-mq:
-  queues:
-    card-emit: card-emit
+  profiles:
+    active: development
